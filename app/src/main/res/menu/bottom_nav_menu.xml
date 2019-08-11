@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/train_dashboard"
+        android:icon="@drawable/ic_train_black"
+        android:title="@string/title_train_dashboard" />
+
+    <item
+        android:id="@+id/test_dashboard"
+        android:icon="@drawable/ic_test_black"
+        android:title="@string/title_test_dashboard" />
+
+    <item
+        android:id="@+id/about_dashboard"
+        android:icon="@drawable/ic_about_black"
+        android:title="@string/title_about_notifications" />
+
+</menu>
