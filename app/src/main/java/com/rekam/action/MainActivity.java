@@ -14,14 +14,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -45,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static SensorManager sensorManager = null;
     private static Sensor accelerometer;
     private static Sensor gyroscope;
+    private static Sensor magnetometer;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             View trainView = findViewById(R.id.train_layout);
             View testView = findViewById(R.id.test_layout);
-            View aboutView = findViewById(R.id.about_layout);
+            View settingsView = findViewById(R.id.settings_layout);
             trainView.setVisibility(View.INVISIBLE);
             testView.setVisibility(View.INVISIBLE);
-            aboutView.setVisibility(View.INVISIBLE);
+            settingsView.setVisibility(View.INVISIBLE);
             switch (item.getItemId()) {
                 case R.id.train_dashboard:
                     trainView.setVisibility(View.VISIBLE);
@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 case R.id.test_dashboard:
                     testView.setVisibility(View.VISIBLE);
                     return true;
-                case R.id.about_dashboard:
-                    aboutView.setVisibility(View.VISIBLE);
+                case R.id.settings_dashboard:
+                    settingsView.setVisibility(View.VISIBLE);
                     return true;
             }
             return false;
@@ -234,12 +234,62 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
+        findViewById(R.id.del_db_btn).setOnClickListener(new View.OnClickListener() {
+            int countBtnDelDBPress = 0;
+            @Override
+            public void onClick(View v) {
+                countBtnDelDBPress++;
+                if(countBtnDelDBPress == 10) {
+                    countBtnDelDBPress = 0;
+                    File dbfolder = new File(getApplicationContext().getApplicationInfo().dataDir + "//databases//");
+                    if (dbfolder.exists()) {
+                        if (dbfolder.isDirectory()) {
+                            String[] children = dbfolder.list();
+                            for (int i = 0; i < children.length; i++) {
+                                new File(dbfolder, children[i]).delete();
+                            }
+                        }
+                    }
+                    actionUID = 0;
+                    SharedPreferences preferences = getSharedPreferences("ActionAppPreferences", 0);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putLong("actionUID", actionUID).commit();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "DB file deleted successfully", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
+
+        final Spinner dropTableName = findViewById(R.id.table_drop_down);
+        findViewById(R.id.drop_table).setOnClickListener(new View.OnClickListener() {
+            int countDropTable = 0;
+            @Override
+            public void onClick(View v) {
+                countDropTable++;
+                if(countDropTable == 10) {
+                    countDropTable = 0;
+                    database.deleteTableData(dropTableName.getSelectedItem().toString());
+                    database.getWritableDatabase().close();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Table data deleted", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
+
         database = new SensorDBModule(getApplicationContext(), DATABASE_NAME, 1);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accelerometer = sensorManager. getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         database.createTable(COP_TRAIN_TABLE,SensorDBModule.ACCELEROMETER);
         database.createTable(HUNGRY_TRAIN_TABLE,SensorDBModule.ACCELEROMETER);
@@ -249,6 +299,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         database.createTable(HUNGRY_TRAIN_TABLE,SensorDBModule.GYROSCOPE);
         database.createTable(HEADACHE_TRAIN_TABLE,SensorDBModule.GYROSCOPE);
         database.createTable(ABOUT_TRAIN_TABLE,SensorDBModule.GYROSCOPE);
+        database.createTable(COP_TRAIN_TABLE,SensorDBModule.MAGNETOMETER);
+        database.createTable(HUNGRY_TRAIN_TABLE,SensorDBModule.MAGNETOMETER);
+        database.createTable(HEADACHE_TRAIN_TABLE,SensorDBModule.MAGNETOMETER);
+        database.createTable(ABOUT_TRAIN_TABLE,SensorDBModule.MAGNETOMETER);
 
         database.createTable(COP_TEST_TABLE,SensorDBModule.ACCELEROMETER);
         database.createTable(HUNGRY_TEST_TABLE,SensorDBModule.ACCELEROMETER);
@@ -258,6 +312,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         database.createTable(HUNGRY_TEST_TABLE,SensorDBModule.GYROSCOPE);
         database.createTable(HEADACHE_TEST_TABLE,SensorDBModule.GYROSCOPE);
         database.createTable(ABOUT_TEST_TABLE,SensorDBModule.GYROSCOPE);
+        database.createTable(COP_TEST_TABLE,SensorDBModule.MAGNETOMETER);
+        database.createTable(HUNGRY_TEST_TABLE,SensorDBModule.MAGNETOMETER);
+        database.createTable(HEADACHE_TEST_TABLE,SensorDBModule.MAGNETOMETER);
+        database.createTable(ABOUT_TEST_TABLE,SensorDBModule.MAGNETOMETER);
     }
 
     private void startSession() {
@@ -298,6 +356,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
                     database.insert(tableName,SensorDBModule.GYROSCOPE, actionUID, event.timestamp, event.values[0], event.values[1], event.values[2]);
                 }
+                if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+                    database.insert(tableName,SensorDBModule.MAGNETOMETER, actionUID, event.timestamp, event.values[0], event.values[1], event.values[2]);
+                }
             }
         }
     }
@@ -330,6 +391,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         actionUID = preferences.getLong("actionUID", 0);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     /**

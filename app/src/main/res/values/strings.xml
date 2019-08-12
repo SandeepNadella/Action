@@ -2,7 +2,7 @@
     <string name="app_name">Action</string>
     <string name="title_train_dashboard">Train</string>
     <string name="title_test_dashboard">Test</string>
-    <string name="title_about_notifications">About️</string>
+    <string name="title_setting_dashboard">Advanced</string>
     <string name="cop_btn_title">Cop 👮</string>
     <string name="hungry_btn_title">Hungry 😋</string>
     <string name="headache_btn_title">Headache 🤕</string>
@@ -19,4 +19,8 @@
     <string name="training_help">ⓘ Touch and hold a button under Record Actions to record the action and leave to stop recording.\nThen click Start Training to start the training process.</string>
     <string name="training_status" />
     <string name="generated_accuracies" />
+    <string name="delete_db_label">Delete DB</string>
+    <string name="delete_table_btn_label">Delete Table</string>
+    <string name="table_selection_label">Table</string>
+    <string name="delete_help">⚠ Click the button 10 times to execute the delete behaviour</string>
 </resources>

@@ -16,8 +16,8 @@
         layout="@layout/test_main"
         android:visibility="invisible"/>
     <include
-        android:id="@+id/about_layout"
-        layout="@layout/about_main"
+        android:id="@+id/settings_layout"
+        layout="@layout/settings_main"
         android:visibility="invisible"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

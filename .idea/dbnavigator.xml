@@ -37,33 +37,48 @@
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
       <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/accl_cop_train" />
+      <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/gyro_cop_test" />
       <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/accl_cop_test" />
       <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/accl_about_train" />
-      <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/accl_about_test" />
+      <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/gyro_hungry_train" />
+      <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/gyro_cop_train" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="be59be71-f8af-4733-abed-bbf967636d95" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_about_test" active-filter-id="21e70ec7-e272-4360-ba68-b2c2b95fa744">
-      <filter id="21e70ec7-e272-4360-ba68-b2c2b95fa744" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
-    </filter-actions>
-    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_hungry_train" active-filter-id="80bc8219-1810-4c09-a8a2-672ae18eca61">
-      <filter id="80bc8219-1810-4c09-a8a2-672ae18eca61" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="action_uid" operator="=" value="" active="false" />
-      </filter>
-    </filter-actions>
-    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".gyro_cop_test" active-filter-id="fd04697b-7658-4468-9658-8ddf3918e38e">
-      <filter id="fd04697b-7658-4468-9658-8ddf3918e38e" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
-    </filter-actions>
-    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_about_train" active-filter-id="4a28555b-55cc-40c0-ab50-84ccd87fbf9e">
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".mag_about_test" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".mag_hungry_train" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_hungry_train" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".android_metadata" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".gyro_hungry_train" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".gyro_headache_test" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".mag_about_train" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".gyro_cop_train" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_about_train" active-filter-id="EMPTY_FILTER">
       <filter id="4a28555b-55cc-40c0-ab50-84ccd87fbf9e" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="action_uid" operator="=" value="" active="false" />
       </filter>
     </filter-actions>
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".gyro_headache_train" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_cop_test" active-filter-id="9b11182f-39f6-43fc-8ed2-906ce674bc2a">
       <filter id="9b11182f-39f6-43fc-8ed2-906ce674bc2a" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".gyro_about_test" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".mag_cop_train" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_about_test" active-filter-id="21e70ec7-e272-4360-ba68-b2c2b95fa744">
+      <filter id="21e70ec7-e272-4360-ba68-b2c2b95fa744" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".gyro_hungry_test" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".mag_headache_train" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_headache_test" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_hungry_test" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".gyro_about_train" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".mag_headache_test" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_headache_train" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".gyro_cop_test" active-filter-id="fd04697b-7658-4468-9658-8ddf3918e38e">
+      <filter id="fd04697b-7658-4468-9658-8ddf3918e38e" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
     <filter-actions connection-id="be59be71-f8af-4733-abed-bbf967636d95" dataset=".accl_cop_train" active-filter-id="362effcc-bd0e-43d4-bf09-bc014f9746c0">
       <filter id="362effcc-bd0e-43d4-bf09-bc014f9746c0" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
@@ -71,9 +86,6 @@
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
-  </component>
-  <component name="DBNavigator.Project.FileConnectionMappingManager">
-    <mapping file-url="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/emulator-5554/data/data/com.rekam.action/databases/SensorDB" connection-id="virtual-sqlite-connection" session-id="MAIN" current-schema="" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />

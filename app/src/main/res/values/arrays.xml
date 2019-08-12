@@ -6,4 +6,30 @@
         <item>Decision Tree</item>
         <item>Dynamic Time Warping (DTW)</item>
     </string-array>
+    <string-array name="tables_available">
+        <item>accl_cop_train</item>
+        <item>accl_hungry_train</item>
+        <item>accl_headache_train</item>
+        <item>accl_about_train</item>
+        <item>accl_cop_test</item>
+        <item>accl_hungry_test</item>
+        <item>accl_headache_test</item>
+        <item>accl_about_test</item>
+        <item>gyro_cop_train</item>
+        <item>gyro_hungry_train</item>
+        <item>gyro_headache_train</item>
+        <item>gyro_about_train</item>
+        <item>gyro_cop_test</item>
+        <item>gyro_hungry_test</item>
+        <item>gyro_headache_test</item>
+        <item>gyro_about_test</item>
+        <item>mag_cop_train</item>
+        <item>mag_hungry_train</item>
+        <item>mag_headache_train</item>
+        <item>mag_about_train</item>
+        <item>mag_cop_test</item>
+        <item>mag_hungry_test</item>
+        <item>mag_headache_test</item>
+        <item>mag_about_test</item>
+    </string-array>
 </resources>

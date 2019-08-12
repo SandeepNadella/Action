@@ -18,6 +18,7 @@ public class SensorDBModule extends SQLiteOpenHelper {
 
     public static String ACCELEROMETER = "accl";
     public static String GYROSCOPE = "gyro";
+    public static String MAGNETOMETER = "mag";
 
     //The column names in the database table
     private String ACTION_UID = "action_uid";
@@ -135,5 +136,9 @@ public class SensorDBModule extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // NOT needed
+    }
+
+    public void deleteTableData(String tableName) {
+        getWritableDatabase().execSQL("DELETE FROM " + tableName + " WHERE "+ACTION_UID+" IS NOT NULL");
     }
 }
