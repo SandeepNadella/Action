@@ -60,7 +60,7 @@ public class SensorDBModule extends SQLiteOpenHelper {
      */
     public void createTable(String tableName, String sensorType) {
 
-        String uthTableName = sensorType+"_"+tableName;
+        String uthTableName = sensorType + "_" + tableName;
         try {
             String s = "CREATE TABLE IF NOT EXISTS " + uthTableName + " (" +
                     ACTION_UID + " REAL, " +
@@ -80,7 +80,7 @@ public class SensorDBModule extends SQLiteOpenHelper {
      * Drops/deletes the table with the table name used while creating the table
      */
     public void delete(String tableName, String sensorType) {
-        String uthTableName = sensorType+"_"+tableName;
+        String uthTableName = sensorType + "_" + tableName;
         getWritableDatabase().execSQL("DROP TABLE IF EXISTS " + uthTableName);
     }
 
@@ -91,7 +91,7 @@ public class SensorDBModule extends SQLiteOpenHelper {
      * @param sensorType
      */
     public void insert(String tableName, String sensorType, long actionUID, long timeStamp, float xValue, float yValue, float zValue) {
-        String uthTableName = sensorType+"_"+tableName;
+        String uthTableName = sensorType + "_" + tableName;
         try {
             String i = "INSERT INTO " + uthTableName + " VALUES(" + actionUID + ", " + timeStamp + ", " + xValue + ", " + yValue + ", " + zValue + ")";
             getWritableDatabase().execSQL(i);
@@ -139,6 +139,6 @@ public class SensorDBModule extends SQLiteOpenHelper {
     }
 
     public void deleteTableData(String tableName) {
-        getWritableDatabase().execSQL("DELETE FROM " + tableName + " WHERE "+ACTION_UID+" IS NOT NULL");
+        getWritableDatabase().execSQL("DELETE FROM " + tableName + " WHERE " + ACTION_UID + " IS NOT NULL");
     }
 }

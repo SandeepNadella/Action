@@ -35,14 +35,7 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/accl_cop_train" />
-      <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/gyro_cop_test" />
-      <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/accl_cop_test" />
-      <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/accl_about_train" />
-      <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/gyro_hungry_train" />
-      <object connection-id="be59be71-f8af-4733-abed-bbf967636d95" object-ref="schemas//tables/gyro_cop_train" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="be59be71-f8af-4733-abed-bbf967636d95" />

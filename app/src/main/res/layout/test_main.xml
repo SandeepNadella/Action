@@ -10,142 +10,157 @@
         android:id="@+id/test_action_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/test_action_title"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="sans-serif-condensed"
-        android:layout_marginLeft="10dp"
+        android:gravity="left"
+        android:text="@string/test_action_title"
         android:textFontWeight="800"
-        android:textStyle="bold"
         android:textSize="20sp"
-        android:gravity="left"/>
+        android:textStyle="bold" />
+
     <LinearLayout
         android:id="@+id/relative_layout_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/test_action_title"
-        android:gravity="center"
         android:layout_margin="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/cop_test"
-            android:text="@string/cop_btn_title"
-            android:textColor="@android:color/white"
-            android:background="@drawable/record_button"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:background="@drawable/record_button"
+            android:text="@string/cop_btn_title"
+            android:textColor="@android:color/white" />
+
         <Button
             android:id="@+id/hungry_test"
-            android:text="@string/hungry_btn_title"
-            android:textColor="@android:color/white"
-            android:background="@drawable/record_button"
             android:layout_width="160dp"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_height="wrap_content" />
+            android:background="@drawable/record_button"
+            android:text="@string/hungry_btn_title"
+            android:textColor="@android:color/white" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/relative_layout_2"
-        android:layout_below="@id/relative_layout_1"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_layout_1"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/headache_test"
-            android:text="@string/headache_btn_title"
-            android:textColor="@android:color/white"
             android:layout_width="160dp"
-            android:background="@drawable/record_button"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_height="wrap_content" />
+            android:background="@drawable/record_button"
+            android:text="@string/headache_btn_title"
+            android:textColor="@android:color/white" />
+
         <Button
             android:id="@+id/about_test"
-            android:text="@string/about_btn_title"
-            android:textColor="@android:color/white"
             android:layout_width="160dp"
-            android:background="@drawable/record_button"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_height="wrap_content" />
+            android:background="@drawable/record_button"
+            android:text="@string/about_btn_title"
+            android:textColor="@android:color/white" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/relative_layout_3"
-        android:layout_below="@id/relative_layout_2"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_layout_2"
         android:layout_margin="10dp"
         android:gravity="left"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/algo_selection_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/algorithm_label"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
             android:labelFor="@id/algo_drop_down"
-            android:textSize="15sp"
-            android:gravity="center"/>
+            android:text="@string/algorithm_label"
+            android:textSize="15sp" />
+
         <Spinner
             android:id="@+id/algo_drop_down"
-            android:layout_below="@id/relative_layout_2"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relative_layout_2"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="30dp"
-            android:prompt="@string/choose_algorithm"
             android:entries="@array/algorithms_available"
-            android:layout_height="wrap_content" />
+            android:prompt="@string/choose_algorithm" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/relative_layout_4"
-        android:layout_below="@id/relative_layout_3"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_layout_3"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
-    <Button
-        android:id="@+id/generate_acc_btn"
-        android:text="@string/generate_btn_label"
-        android:textColor="@android:color/white"
-        android:background="@drawable/submit_button"
-        android:layout_width="160dp"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/clear_test_btn"
-        android:text="@string/clear_btn_label"
-        android:layout_width="160dp"
-        android:background="@drawable/clear_button"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/generate_acc_btn"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/submit_button"
+            android:text="@string/generate_btn_label"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/clear_test_btn"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/clear_button"
+            android:text="@string/clear_btn_label" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/relative_layout_5"
-        android:layout_below="@id/relative_layout_4"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_layout_4"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/test_help"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/test_help"
             android:layout_margin="10dp"
-            android:textSize="15sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="@string/test_help"
+            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/generated_accuracies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/generated_accuracies"
             android:layout_margin="10dp"
-            android:textStyle="bold"
+            android:gravity="center"
+            android:text="@string/generated_accuracies"
             android:textSize="25sp"
-            android:gravity="center"/>
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

@@ -10,15 +10,17 @@
     <include
         android:id="@+id/train_layout"
         layout="@layout/train_main"
-        android:visibility="visible"/>
+        android:visibility="visible" />
+
     <include
         android:id="@+id/test_layout"
         layout="@layout/test_main"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
+
     <include
         android:id="@+id/settings_layout"
         layout="@layout/settings_main"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

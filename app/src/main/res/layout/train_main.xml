@@ -10,105 +10,116 @@
         android:id="@+id/record_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:text="@string/record_train_title"
         android:layout_margin="10dp"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="left"
+        android:text="@string/record_train_title"
         android:textFontWeight="800"
-        android:textStyle="bold"
         android:textSize="20sp"
-        android:gravity="left"/>
+        android:textStyle="bold" />
+
     <LinearLayout
         android:id="@+id/relative_layout_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/record_title"
-        android:gravity="center"
         android:layout_margin="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/cop_train"
-            android:text="@string/cop_btn_title"
-            android:textColor="@android:color/white"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:background="@drawable/record_button"
-            android:layout_margin="10dp"/>
+            android:text="@string/cop_btn_title"
+            android:textColor="@android:color/white" />
+
         <Button
             android:id="@+id/hungry_train"
-            android:text="@string/hungry_btn_title"
-            android:textColor="@android:color/white"
             android:layout_width="160dp"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/record_button"
-            android:layout_height="wrap_content" />
+            android:text="@string/hungry_btn_title"
+            android:textColor="@android:color/white" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/relative_layout_2"
-        android:layout_below="@id/relative_layout_1"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_layout_1"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/headache_train"
-            android:text="@string/headache_btn_title"
-            android:textColor="@android:color/white"
             android:layout_width="160dp"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/record_button"
-            android:layout_height="wrap_content" />
+            android:text="@string/headache_btn_title"
+            android:textColor="@android:color/white" />
+
         <Button
             android:id="@+id/about_train"
-            android:text="@string/about_btn_title"
-            android:textColor="@android:color/white"
             android:layout_width="160dp"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/record_button"
-            android:layout_height="wrap_content" />
+            android:text="@string/about_btn_title"
+            android:textColor="@android:color/white" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/relative_layout_3"
-        android:layout_below="@id/relative_layout_2"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_layout_2"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
-    <Button
-        android:id="@+id/start_training"
-        android:text="@string/start_train_title"
-        android:background="@drawable/submit_button"
-        android:textColor="@android:color/white"
-        android:layout_below="@id/relative_layout_2"
-        android:layout_width="160dp"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/start_training"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relative_layout_2"
+            android:layout_margin="10dp"
+            android:background="@drawable/submit_button"
+            android:text="@string/start_train_title"
+            android:textColor="@android:color/white" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/relative_layout_4"
-        android:layout_below="@id/relative_layout_3"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_layout_3"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/train_help"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/training_help"
             android:layout_margin="10dp"
-            android:textSize="15sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="@string/training_help"
+            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/training_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/training_status"
             android:layout_margin="10dp"
-            android:textStyle="bold"
+            android:gravity="center"
+            android:text="@string/training_status"
             android:textSize="25sp"
-            android:gravity="center"/>
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

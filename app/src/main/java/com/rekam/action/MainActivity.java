@@ -8,13 +8,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -22,10 +15,17 @@ import android.view.View;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
+    public static String TAG = "Action";
     private static boolean captureSensorReading = false;
     private static String trainTableName = null;
     private static String testTableName = null;
@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static String HEADACHE_TEST_TABLE = "headache_test";
     private static String ABOUT_TEST_TABLE = "about_test";
     private static long actionUID = 0;
-    public static String TAG = "Action";
     private static SensorDBModule database = null;
     private static String DATABASE_NAME = "SensorDB";
     private static SensorManager sensorManager = null;
@@ -85,13 +84,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.cop_train).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     captureSensorReading = true;
                     trainTableName = COP_TRAIN_TABLE;
                     testTableName = null;
                     actionUID++;
                     startSession();
-                } else if(event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     captureSensorReading = false;
                     trainTableName = null;
                     testTableName = null;
@@ -104,13 +103,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.hungry_train).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     captureSensorReading = true;
                     trainTableName = HUNGRY_TRAIN_TABLE;
                     testTableName = null;
                     actionUID++;
                     startSession();
-                } else if(event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     captureSensorReading = false;
                     trainTableName = null;
                     testTableName = null;
@@ -123,13 +122,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.headache_train).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     captureSensorReading = true;
                     trainTableName = HEADACHE_TRAIN_TABLE;
                     testTableName = null;
                     actionUID++;
                     startSession();
-                } else if(event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     captureSensorReading = false;
                     trainTableName = null;
                     testTableName = null;
@@ -142,13 +141,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.about_train).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     captureSensorReading = true;
                     trainTableName = ABOUT_TRAIN_TABLE;
                     testTableName = null;
                     actionUID++;
                     startSession();
-                } else if(event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     captureSensorReading = false;
                     trainTableName = null;
                     testTableName = null;
@@ -161,13 +160,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.cop_test).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     captureSensorReading = true;
                     trainTableName = null;
                     testTableName = COP_TEST_TABLE;
                     actionUID++;
                     startSession();
-                } else if(event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     captureSensorReading = false;
                     trainTableName = null;
                     testTableName = null;
@@ -180,13 +179,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.hungry_test).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     captureSensorReading = true;
                     trainTableName = null;
                     testTableName = HUNGRY_TEST_TABLE;
                     actionUID++;
                     startSession();
-                } else if(event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     captureSensorReading = false;
                     trainTableName = null;
                     testTableName = null;
@@ -199,13 +198,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.headache_test).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     captureSensorReading = true;
                     trainTableName = null;
                     testTableName = HEADACHE_TEST_TABLE;
                     actionUID++;
                     startSession();
-                } else if(event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     captureSensorReading = false;
                     trainTableName = null;
                     testTableName = null;
@@ -218,13 +217,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.about_test).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     captureSensorReading = true;
                     trainTableName = null;
                     testTableName = ABOUT_TEST_TABLE;
                     actionUID++;
                     startSession();
-                } else if(event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     captureSensorReading = false;
                     trainTableName = null;
                     testTableName = null;
@@ -236,10 +235,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         findViewById(R.id.del_db_btn).setOnClickListener(new View.OnClickListener() {
             int countBtnDelDBPress = 0;
+
             @Override
             public void onClick(View v) {
                 countBtnDelDBPress++;
-                if(countBtnDelDBPress == 10) {
+                if (countBtnDelDBPress == 10) {
                     countBtnDelDBPress = 0;
                     File dbfolder = new File(getApplicationContext().getApplicationInfo().dataDir + "//databases//");
                     if (dbfolder.exists()) {
@@ -250,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             }
                         }
                     }
+                    databaseInit();
                     actionUID = 0;
                     SharedPreferences preferences = getSharedPreferences("ActionAppPreferences", 0);
                     SharedPreferences.Editor editor = preferences.edit();
@@ -266,10 +267,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         final Spinner dropTableName = findViewById(R.id.table_drop_down);
         findViewById(R.id.drop_table).setOnClickListener(new View.OnClickListener() {
             int countDropTable = 0;
+
             @Override
             public void onClick(View v) {
                 countDropTable++;
-                if(countDropTable == 10) {
+                if (countDropTable == 10) {
                     countDropTable = 0;
                     database.deleteTableData(dropTableName.getSelectedItem().toString());
                     database.getWritableDatabase().close();
@@ -282,40 +284,48 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        database = new SensorDBModule(getApplicationContext(), DATABASE_NAME, 1);
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensorManager. getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-        database.createTable(COP_TRAIN_TABLE,SensorDBModule.ACCELEROMETER);
-        database.createTable(HUNGRY_TRAIN_TABLE,SensorDBModule.ACCELEROMETER);
-        database.createTable(HEADACHE_TRAIN_TABLE,SensorDBModule.ACCELEROMETER);
-        database.createTable(ABOUT_TRAIN_TABLE,SensorDBModule.ACCELEROMETER);
-        database.createTable(COP_TRAIN_TABLE,SensorDBModule.GYROSCOPE);
-        database.createTable(HUNGRY_TRAIN_TABLE,SensorDBModule.GYROSCOPE);
-        database.createTable(HEADACHE_TRAIN_TABLE,SensorDBModule.GYROSCOPE);
-        database.createTable(ABOUT_TRAIN_TABLE,SensorDBModule.GYROSCOPE);
-        database.createTable(COP_TRAIN_TABLE,SensorDBModule.MAGNETOMETER);
-        database.createTable(HUNGRY_TRAIN_TABLE,SensorDBModule.MAGNETOMETER);
-        database.createTable(HEADACHE_TRAIN_TABLE,SensorDBModule.MAGNETOMETER);
-        database.createTable(ABOUT_TRAIN_TABLE,SensorDBModule.MAGNETOMETER);
+        databaseInit();
 
-        database.createTable(COP_TEST_TABLE,SensorDBModule.ACCELEROMETER);
-        database.createTable(HUNGRY_TEST_TABLE,SensorDBModule.ACCELEROMETER);
-        database.createTable(HEADACHE_TEST_TABLE,SensorDBModule.ACCELEROMETER);
-        database.createTable(ABOUT_TEST_TABLE,SensorDBModule.ACCELEROMETER);
-        database.createTable(COP_TEST_TABLE,SensorDBModule.GYROSCOPE);
-        database.createTable(HUNGRY_TEST_TABLE,SensorDBModule.GYROSCOPE);
-        database.createTable(HEADACHE_TEST_TABLE,SensorDBModule.GYROSCOPE);
-        database.createTable(ABOUT_TEST_TABLE,SensorDBModule.GYROSCOPE);
-        database.createTable(COP_TEST_TABLE,SensorDBModule.MAGNETOMETER);
-        database.createTable(HUNGRY_TEST_TABLE,SensorDBModule.MAGNETOMETER);
-        database.createTable(HEADACHE_TEST_TABLE,SensorDBModule.MAGNETOMETER);
-        database.createTable(ABOUT_TEST_TABLE,SensorDBModule.MAGNETOMETER);
+    }
+
+    private void databaseInit() {
+        database = new SensorDBModule(getApplicationContext(), DATABASE_NAME, 1);
+        database.createTable(COP_TRAIN_TABLE, SensorDBModule.ACCELEROMETER);
+        database.createTable(HUNGRY_TRAIN_TABLE, SensorDBModule.ACCELEROMETER);
+        database.createTable(HEADACHE_TRAIN_TABLE, SensorDBModule.ACCELEROMETER);
+        database.createTable(ABOUT_TRAIN_TABLE, SensorDBModule.ACCELEROMETER);
+        database.createTable(COP_TRAIN_TABLE, SensorDBModule.GYROSCOPE);
+        database.createTable(HUNGRY_TRAIN_TABLE, SensorDBModule.GYROSCOPE);
+        database.createTable(HEADACHE_TRAIN_TABLE, SensorDBModule.GYROSCOPE);
+        database.createTable(ABOUT_TRAIN_TABLE, SensorDBModule.GYROSCOPE);
+        database.createTable(COP_TRAIN_TABLE, SensorDBModule.MAGNETOMETER);
+        database.createTable(HUNGRY_TRAIN_TABLE, SensorDBModule.MAGNETOMETER);
+        database.createTable(HEADACHE_TRAIN_TABLE, SensorDBModule.MAGNETOMETER);
+        database.createTable(ABOUT_TRAIN_TABLE, SensorDBModule.MAGNETOMETER);
+
+        database.createTable(COP_TEST_TABLE, SensorDBModule.ACCELEROMETER);
+        database.createTable(HUNGRY_TEST_TABLE, SensorDBModule.ACCELEROMETER);
+        database.createTable(HEADACHE_TEST_TABLE, SensorDBModule.ACCELEROMETER);
+        database.createTable(ABOUT_TEST_TABLE, SensorDBModule.ACCELEROMETER);
+        database.createTable(COP_TEST_TABLE, SensorDBModule.GYROSCOPE);
+        database.createTable(HUNGRY_TEST_TABLE, SensorDBModule.GYROSCOPE);
+        database.createTable(HEADACHE_TEST_TABLE, SensorDBModule.GYROSCOPE);
+        database.createTable(ABOUT_TEST_TABLE, SensorDBModule.GYROSCOPE);
+        database.createTable(COP_TEST_TABLE, SensorDBModule.MAGNETOMETER);
+        database.createTable(HUNGRY_TEST_TABLE, SensorDBModule.MAGNETOMETER);
+        database.createTable(HEADACHE_TEST_TABLE, SensorDBModule.MAGNETOMETER);
+        database.createTable(ABOUT_TEST_TABLE, SensorDBModule.MAGNETOMETER);
+
+        database.getWritableDatabase().close();
     }
 
     private void startSession() {
@@ -348,16 +358,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (captureSensorReading) {
-            String tableName = (trainTableName == null)? (testTableName == null)? null: testTableName : trainTableName;
-            if(tableName != null) {
+            String tableName = (trainTableName == null) ? (testTableName == null) ? null : testTableName : trainTableName;
+            if (tableName != null) {
                 if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                    database.insert(tableName,SensorDBModule.ACCELEROMETER, actionUID, event.timestamp, event.values[0], event.values[1], event.values[2]);
+                    database.insert(tableName, SensorDBModule.ACCELEROMETER, actionUID, event.timestamp, event.values[0], event.values[1], event.values[2]);
                 }
                 if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-                    database.insert(tableName,SensorDBModule.GYROSCOPE, actionUID, event.timestamp, event.values[0], event.values[1], event.values[2]);
+                    database.insert(tableName, SensorDBModule.GYROSCOPE, actionUID, event.timestamp, event.values[0], event.values[1], event.values[2]);
                 }
                 if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-                    database.insert(tableName,SensorDBModule.MAGNETOMETER, actionUID, event.timestamp, event.values[0], event.values[1], event.values[2]);
+                    database.insert(tableName, SensorDBModule.MAGNETOMETER, actionUID, event.timestamp, event.values[0], event.values[1], event.values[2]);
                 }
             }
         }
@@ -382,7 +392,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    /**®
+    /**
+     * ®
      * Register sensor listener on app resume
      */
     protected void onResume() {
