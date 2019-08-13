@@ -31,5 +31,10 @@
         <item>mag_hungry_test</item>
         <item>mag_headache_test</item>
         <item>mag_about_test</item>
+        <item>mag_about_test</item>
+        <item>Train</item>
+        <item>Test</item>
+        <item>Train_Mean_Features</item>
+        <item>Test_Mean_Features</item>
     </string-array>
 </resources>

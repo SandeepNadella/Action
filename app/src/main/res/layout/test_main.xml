@@ -27,7 +27,7 @@
         android:layout_below="@id/test_action_title"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/cop_test"
@@ -55,7 +55,7 @@
         android:layout_below="@id/relative_layout_1"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/headache_test"

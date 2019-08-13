@@ -34,11 +34,18 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <CheckBox
+            android:id="@+id/do_it_my_way_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/record_title"
+            android:layout_margin="10dp"
+            android:text="@string/do_it_my_way_label" />
+
         <Button
             android:id="@+id/del_db_btn"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/record_title"
             android:layout_margin="10dp"
             android:background="@drawable/record_button"
             android:text="@string/delete_db_label"

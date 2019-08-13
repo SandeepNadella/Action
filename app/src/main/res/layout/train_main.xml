@@ -25,7 +25,7 @@
         android:layout_below="@id/record_title"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/cop_train"
@@ -53,7 +53,7 @@
         android:layout_below="@id/relative_layout_1"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/headache_train"
