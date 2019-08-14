@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="2dp"
         android:fontFamily="sans-serif-condensed"
         android:gravity="left"
         android:text="@string/test_action_title"
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/test_action_title"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -33,7 +33,7 @@
             android:id="@+id/cop_test"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:background="@drawable/record_button"
             android:text="@string/cop_btn_title"
             android:textColor="@android:color/white" />
@@ -42,7 +42,7 @@
             android:id="@+id/hungry_test"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:background="@drawable/record_button"
             android:text="@string/hungry_btn_title"
             android:textColor="@android:color/white" />
@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/relative_layout_1"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -61,7 +61,7 @@
             android:id="@+id/headache_test"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:background="@drawable/record_button"
             android:text="@string/headache_btn_title"
             android:textColor="@android:color/white" />
@@ -70,7 +70,7 @@
             android:id="@+id/about_test"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:background="@drawable/record_button"
             android:text="@string/about_btn_title"
             android:textColor="@android:color/white" />
@@ -81,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/relative_layout_2"
-        android:layout_margin="10dp"
+        android:layout_margin="2dp"
         android:gravity="left"
         android:orientation="vertical">
 
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:labelFor="@id/algo_drop_down"
             android:text="@string/algorithm_label"
@@ -103,7 +103,7 @@
             android:layout_below="@id/relative_layout_2"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="2dp"
             android:entries="@array/algorithms_available"
             android:prompt="@string/choose_algorithm" />
     </LinearLayout>
@@ -113,7 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/relative_layout_3"
-        android:layout_margin="10dp"
+        android:layout_margin="2dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -121,18 +121,10 @@
             android:id="@+id/generate_acc_btn"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:background="@drawable/submit_button"
             android:text="@string/generate_btn_label"
             android:textColor="@android:color/white" />
-
-        <Button
-            android:id="@+id/clear_test_btn"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/clear_button"
-            android:text="@string/clear_btn_label" />
     </LinearLayout>
 
     <LinearLayout
@@ -140,7 +132,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/relative_layout_4"
-        android:layout_margin="10dp"
+        android:layout_margin="2dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -148,7 +140,7 @@
             android:id="@+id/test_help"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:gravity="center"
             android:text="@string/test_help"
             android:textSize="15sp" />
@@ -157,10 +149,10 @@
             android:id="@+id/generated_accuracies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:gravity="center"
+            android:scrollbars="vertical"
             android:text="@string/generated_accuracies"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textSize="15sp" />
     </LinearLayout>
 </RelativeLayout>

@@ -1,5 +1,5 @@
 # Action 🤳
-An application to train custom gestures and test for accuracies using Machine Learning/Signal Processing methods
+An application to train custom gestures and test for accuracies using Machine Learning methods
 
 
 ### Team member information

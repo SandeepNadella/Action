@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="algorithms_available">
-        <item>Support Vector Machine (SVM)</item>
-        <item>Neural Net</item>
-        <item>Decision Tree</item>
-        <item>Dynamic Time Warping (DTW)</item>
+        <item>MultilayerPerceptron</item>
+        <item>NaiveBayes</item>
+        <item>MultiClassClassifier</item>
+        <item>RandomForest</item>
     </string-array>
     <string-array name="tables_available">
         <item>accl_cop_train</item>

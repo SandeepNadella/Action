@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,19 +26,30 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.Arrays;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.MultilayerPerceptron;
+import weka.classifiers.meta.MultiClassClassifier;
+import weka.classifiers.trees.RandomForest;
 import weka.core.Instances;
+import weka.core.converters.ArffSaver;
 import weka.core.converters.CSVLoader;
 
+/**
+ * Implements Sensor Event Change listener for recording sensor readings.
+ *
+ * @author Sandeep Nadella
+ * @version 1.0
+ */
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     public static String TAG = "Action";
@@ -58,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static Sensor accelerometer;
     private static Sensor gyroscope;
     private static Sensor magnetometer;
-    private static boolean doItMyWay = false;
+    private static boolean mergeSensorReadings = false;
     private static boolean doTrain = true;
     private static long previousRecordedTimestamp = 0;
 
@@ -72,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static float mag_y_value = 0;
     private static float mag_z_value = 0;
     private static long class_label = 0;
+
     private static String TRAIN_TABLE_NAME = "Train";
     private static String TEST_TABLE_NAME = "Test";
 
@@ -89,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             switch (item.getItemId()) {
                 case R.id.train_dashboard:
                     trainView.setVisibility(View.VISIBLE);
+                    TextView trainingStatusArea = findViewById(R.id.training_status);
+                    trainingStatusArea.setText("");
                     doTrain = true;
                     return true;
                 case R.id.test_dashboard:
@@ -103,6 +119,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             return false;
         }
     };
+    private Instances mTrain;
+    private Instances mTest;
+
+    private static Classifier loadModel(String modelFilePath) throws Exception {
+
+        Classifier classifier;
+
+        FileInputStream fis = new FileInputStream(modelFilePath);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+
+        classifier = (Classifier) ois.readObject();
+        ois.close();
+
+        return classifier;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,11 +149,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         doItMyWayBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    doItMyWay = true;
-                } else {
-                    doItMyWay = false;
-                }
+                mergeSensorReadings = isChecked;
             }
         });
 
@@ -144,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     stopSession();
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(MainActivity.this, "Count: "+actionUID, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Count: " + actionUID, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -170,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     stopSession();
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(MainActivity.this, "Count: "+actionUID, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Count: " + actionUID, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -196,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     stopSession();
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(MainActivity.this, "Count: "+actionUID, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Count: " + actionUID, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -222,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     stopSession();
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(MainActivity.this, "Count: "+actionUID, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Count: " + actionUID, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -248,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     stopSession();
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(MainActivity.this, "Count: "+actionUID, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Count: " + actionUID, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -274,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     stopSession();
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(MainActivity.this, "Count: "+actionUID, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Count: " + actionUID, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -300,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     stopSession();
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(MainActivity.this, "Count: "+actionUID, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Count: " + actionUID, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -326,7 +353,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     stopSession();
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(MainActivity.this, "Count: "+actionUID, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Count: " + actionUID, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -384,6 +411,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
             }
         });
+        final Spinner algoDropDown = findViewById(R.id.algo_drop_down);
 
         findViewById(R.id.start_training).setOnClickListener(new View.OnClickListener() {
 
@@ -393,11 +421,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 database.calculateFeaturesForTrain(TRAIN_TABLE_NAME);
                 database.calculateFeaturesForTest(TEST_TABLE_NAME);
                 database.exportDBs(tables);
-                Classifier classifier = simpleWekaTrain(getApplicationInfo().dataDir+"//databases//CSV//Train_Mean_Features.csv");
-                simpleWekaTest(classifier,getApplicationInfo().dataDir+"//databases//CSV//Test_Mean_Features.csv",getApplicationInfo().dataDir+"//databases//Test_Predictions.arff");
+                //Build models using train data and save
+                getTrainInstances(getApplicationInfo().dataDir + "//databases//CSV//Train_Mean_Features");
+                simpleWekaTrain(getApplicationInfo().dataDir + "//databases//Models");
             }
         });
 
+        findViewById(R.id.generate_acc_btn).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String[] tables = getResources().getStringArray(R.array.tables_available);
+                database.calculateFeaturesForTrain(TRAIN_TABLE_NAME);
+                database.calculateFeaturesForTest(TEST_TABLE_NAME);
+                database.exportDBs(tables);
+                getTrainInstances(getApplicationInfo().dataDir + "//databases//CSV//Train_Mean_Features");
+                getTestInstances(getApplicationInfo().dataDir + "//databases//CSV//Test_Mean_Features");
+                simpleWekaTest(getApplicationInfo().dataDir + "//databases//Models", algoDropDown.getSelectedItem().toString());
+            }
+        });
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -411,78 +453,161 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    public Classifier simpleWekaTrain(String trainReadFilePath) {
-        //Instance of NN
-        MultilayerPerceptron mlp = new MultilayerPerceptron();
+    private void CSVToARFF(String srcPath, String destPath) {
+        CSVLoader loader = new CSVLoader();
         try {
-            //Reading training arff or csv file
-            StringBuilder sb = new StringBuilder();
-            BufferedReader br = new BufferedReader(new FileReader(trainReadFilePath));
-            int maxLines = 50000, lineCounter = 0;
-            String line;
-            while ((line = br.readLine()) != null && lineCounter < maxLines) {
-                sb.append(line).append("\n");
-                lineCounter++;
-            }
-            br.close();
-            CSVLoader csvLoader = new CSVLoader();
-            csvLoader.setSource(new ByteArrayInputStream(sb.toString().getBytes()));
-            Instances train = csvLoader.getDataSet();
-            train.setClassIndex(train.numAttributes() - 1);
-            //Setting Parameters
-            mlp.setLearningRate(0.1);
-            mlp.setMomentum(0.2);
-            mlp.setTrainingTime(9000);
-            mlp.setHiddenLayers("2");
-            mlp.buildClassifier(train);
-
-            Evaluation eval = new Evaluation(train);
-            eval.evaluateModel(mlp, train);
-            Log.v(TAG, "Error Rate: " + eval.errorRate()); //Printing Training Mean root squared Error
-            Log.v(TAG, "Summary: " + eval.toSummaryString()); //Summary of Training
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Log.e(TAG, "Something went wrong in training...");
-        }
-        return mlp;
-    }
-
-    public void simpleWekaTest(Classifier classifier, String predictReadFilePath, String predictWriteFilePath) {
-        Instances datapredict = null;
-        try {
-            StringBuilder sb = new StringBuilder();
-            BufferedReader br = new BufferedReader(new FileReader(predictReadFilePath));
-            int maxLines = 50000, lineCounter = 0;
-            String line;
-            while ((line = br.readLine()) != null && lineCounter < maxLines) {
-                sb.append(line).append("\n");
-                lineCounter++;
-            }
-            br.close();
-            CSVLoader csvLoader = new CSVLoader();
-            csvLoader.setSource(new ByteArrayInputStream(sb.toString().getBytes()));
-            datapredict = csvLoader.getDataSet();
-        datapredict.setClassIndex(datapredict.numAttributes() - 1);
-        Instances predicteddata = new Instances(datapredict);
-        //Predict Part
-        for (int i = 0; i < datapredict.numInstances(); i++) {
-            double clsLabel = classifier.classifyInstance(datapredict.instance(i));
-            predicteddata.instance(i).setClassValue((long)clsLabel);
-        }
-        //Storing again in arff
-        BufferedWriter writer = null;
-            writer = new BufferedWriter(
-                    new FileWriter(predictWriteFilePath));
-            writer.write(predicteddata.toString());
-            writer.newLine();
-            writer.flush();
-            writer.close();
+            loader.setSource(new File(srcPath));
+            Instances data = loader.getDataSet();
+            ArffSaver saver = new ArffSaver();
+            saver.setInstances(data);
+            saver.setFile(new File(destPath));
+            saver.writeBatch();
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e(TAG, "Something went wrong in testing...");
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    private void getTrainInstances(String trainReadFilePath) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            BufferedReader br = new BufferedReader(new FileReader(trainReadFilePath + ".csv"));
+            int maxLines = 50000, lineCounter = 0;
+            String line;
+            while ((line = br.readLine()) != null && lineCounter < maxLines) {
+                sb.append(line).append("\n");
+                lineCounter++;
+            }
+            br.close();
+            CSVLoader csvLoader = new CSVLoader();
+            csvLoader.setSource(new ByteArrayInputStream(sb.toString().getBytes()));
+
+            mTrain = csvLoader.getDataSet();
+            mTrain.setClassIndex(mTrain.numAttributes() - 1);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "Something went wrong in classification in testing...");
+            Log.e(TAG, "Something went wrong while loading training set...");
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(MainActivity.this, "Something went wrong while loading training set...", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    private void getTestInstances(String testReadFilePath) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            BufferedReader br = new BufferedReader(new FileReader(testReadFilePath + ".csv"));
+            int maxLines = 50000, lineCounter = 0;
+            String line;
+            while ((line = br.readLine()) != null && lineCounter < maxLines) {
+                sb.append(line).append("\n");
+                lineCounter++;
+            }
+            br.close();
+            CSVLoader csvLoader = new CSVLoader();
+            csvLoader.setSource(new ByteArrayInputStream(sb.toString().getBytes()));
+
+            mTest = csvLoader.getDataSet();
+            mTest.setClassIndex(mTest.numAttributes() - 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "Something went wrong while loading testing set...");
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(MainActivity.this, "Something went wrong while loading testing set...", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    private void simpleWekaTrain(String modelsStorePath) {
+        File modelsDir = new File(modelsStorePath);
+        if (!modelsDir.exists()) {
+            modelsDir.mkdirs();
+        }
+        try {
+            if (mTrain != null) {
+                TextView trainingStatusArea = findViewById(R.id.training_status);
+                trainingStatusArea.setText("\nTraining MultilayerPerceptron");
+                MultilayerPerceptron mlp = new MultilayerPerceptron();
+                mlp.setOptions(new String[]{"-L", "0.3", "-M", "0.2", "-N", "500", "-V", "0", "-S", "0", "-E", "20", "-H", "a"});
+                mlp.buildClassifier(mTrain);
+                weka.core.SerializationHelper.write(modelsStorePath + "//MultilayerPerceptron.model", mlp);
+                trainingStatusArea.setText("\nTraining NaiveBayes");
+                NaiveBayes naiveBayes = new NaiveBayes();
+                naiveBayes.buildClassifier(mTrain);
+                weka.core.SerializationHelper.write(modelsStorePath + "//NaiveBayes.model", naiveBayes);
+                trainingStatusArea.setText("\nTraining MultiClassClassifier");
+                MultiClassClassifier multiClassClassifier = new MultiClassClassifier();
+                multiClassClassifier.setOptions(new String[]{"-M", "0", "-R", "2.0", "-S", "1", "-W", "weka.classifiers.functions.Logistic", "--", "-R", "1.0E-8", "-M", "-1"});
+                multiClassClassifier.buildClassifier(mTrain);
+                weka.core.SerializationHelper.write(modelsStorePath + "//MultiClassClassifier.model", multiClassClassifier);
+                trainingStatusArea.setText("\nTraining RandomForest");
+                RandomForest randomForest = new RandomForest();
+                randomForest.setOptions(new String[]{"-I", "100", "-K", "0", "-S", "1"});
+                randomForest.buildClassifier(mTrain);
+                weka.core.SerializationHelper.write(modelsStorePath + "//RandomForest.model", randomForest);
+                trainingStatusArea.setText("\nTraining Completed");
+            } else {
+                Log.e(TAG, "Something went wrong... Train set is NULL");
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "Something is wrong with train dataset...", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Log.e(TAG, "Something went wrong while training...");
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(MainActivity.this, "Something went wrong while training...", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    private void simpleWekaTest(String modelPath, String algorithmChosen) {
+        try {
+            Classifier classifier = null;
+            int i = -1;
+            if ("MultilayerPerceptron".equals(algorithmChosen)) {
+                i = 0;
+                classifier = loadModel(modelPath + "//MultilayerPerceptron.model");
+            } else if ("NaiveBayes".equals(algorithmChosen)) {
+                i = 1;
+                classifier = loadModel(modelPath + "//NaiveBayes.model");
+            } else if ("MultiClassClassifier".equals(algorithmChosen)) {
+                i = 2;
+                classifier = loadModel(modelPath + "//MultiClassClassifier.model");
+            } else if ("RandomForest".equals(algorithmChosen)) {
+                i = 3;
+                classifier = loadModel(modelPath + "//RandomForest.model");
+            }
+            String label = "";
+            if (i == 0) {
+                label = "cop";
+            } else if (i == 1) {
+                label = "hungry";
+            } else if (i == 2) {
+                label = "headache";
+            } else if (i == 3) {
+                label = "about";
+            }
+            Evaluation eval = new Evaluation(mTrain);
+            eval.evaluateModel(classifier, mTest);
+
+            Log.v(TAG, "Error Rate: " + eval.errorRate());
+            Log.v(TAG, "Summary: " + eval.toSummaryString());
+            Log.v(TAG, "Confusion Matrix: " + Arrays.deepToString(eval.confusionMatrix()));
+            TextView resultArea = findViewById(R.id.generated_accuracies);
+            resultArea.setMovementMethod(new ScrollingMovementMethod());
+            resultArea.setText("\n\n---Generated Results---\n\nAlgorithm: " + algorithmChosen + "\n\nTrue Positive Rate of " + label + ": " + eval.truePositiveRate(i) + "\n\nFalse Positive Rate of " + label + ": " + eval.falsePositiveRate(i) + "\n\nConfusion Matrix: \n" + Arrays.deepToString(eval.confusionMatrix()).replace("], ", "]\n").replace("[[", "[").replace("]]", "]") + "\n\nError Rate: " + eval.errorRate() + "\n\nSummary:" + eval.toSummaryString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.v(TAG, "Error: " + e.getMessage());
         }
     }
 
@@ -551,7 +676,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
-        String tableName = (trainTableName == null) ? (testTableName == null) ? null : testTableName : trainTableName;
+        String tableName = (trainTableName == null) ? testTableName : trainTableName;
         long currentTime = System.currentTimeMillis();
         if (captureSensorReading) {
             if (tableName != null) {
@@ -566,7 +691,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
             }
         }
-        if (doItMyWay) {
+        if (mergeSensorReadings) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 accl_x_value = event.values[0];
                 accl_y_value = event.values[1];
@@ -597,17 +722,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         mag_y_value = Float.MIN_VALUE;
                         mag_z_value = Float.MIN_VALUE;
                     } else {
-                            database.insert(TEST_TABLE_NAME, accl_x_value, accl_y_value, accl_z_value, gyro_x_value, gyro_y_value, gyro_z_value, mag_x_value, mag_y_value, mag_z_value,class_label);
-                            previousRecordedTimestamp = currentTime;
-                            accl_x_value = Float.MIN_VALUE;
-                            accl_y_value = Float.MIN_VALUE;
-                            accl_z_value = Float.MIN_VALUE;
-                            gyro_x_value = Float.MIN_VALUE;
-                            gyro_y_value = Float.MIN_VALUE;
-                            gyro_z_value = Float.MIN_VALUE;
-                            mag_x_value = Float.MIN_VALUE;
-                            mag_y_value = Float.MIN_VALUE;
-                            mag_z_value = Float.MIN_VALUE;
+                        database.insert(TEST_TABLE_NAME, accl_x_value, accl_y_value, accl_z_value, gyro_x_value, gyro_y_value, gyro_z_value, mag_x_value, mag_y_value, mag_z_value, class_label);
+                        previousRecordedTimestamp = currentTime;
+                        accl_x_value = Float.MIN_VALUE;
+                        accl_y_value = Float.MIN_VALUE;
+                        accl_z_value = Float.MIN_VALUE;
+                        gyro_x_value = Float.MIN_VALUE;
+                        gyro_y_value = Float.MIN_VALUE;
+                        gyro_z_value = Float.MIN_VALUE;
+                        mag_x_value = Float.MIN_VALUE;
+                        mag_y_value = Float.MIN_VALUE;
+                        mag_z_value = Float.MIN_VALUE;
                     }
                 }
             }

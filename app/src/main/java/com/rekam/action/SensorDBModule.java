@@ -1,12 +1,10 @@
 package com.rekam.action;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -167,9 +165,9 @@ public class SensorDBModule extends SQLiteOpenHelper {
     public void insert(String tableName, long actionClass, long timeStamp, float accl_xValue, float accl_yValue, float accl_zValue, float gyro_xValue, float gyro_yValue, float gyro_zValue, float mag_xValue, float mag_yValue, float mag_zValue) {
         String uthTableName = tableName;
         try {
-            String i = "INSERT INTO " + uthTableName + " VALUES(" + actionClass + ", " + timeStamp + ", " + accl_xValue + ", " + accl_yValue + ", " + accl_zValue + ", " + gyro_xValue + ", " + gyro_yValue + ", " + gyro_zValue + ", " + mag_xValue + ", " + mag_yValue + ", " + mag_zValue+")";
+            String i = "INSERT INTO " + uthTableName + " VALUES(" + actionClass + ", " + timeStamp + ", " + accl_xValue + ", " + accl_yValue + ", " + accl_zValue + ", " + gyro_xValue + ", " + gyro_yValue + ", " + gyro_zValue + ", " + mag_xValue + ", " + mag_yValue + ", " + mag_zValue + ")";
             getWritableDatabase().execSQL(i);
-            Log.v(MainActivity.TAG, i+"\n Database insertion complete");
+            Log.v(MainActivity.TAG, i + "\n Database insertion complete");
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(MainActivity.TAG, "Database insertion failed!");
@@ -182,12 +180,12 @@ public class SensorDBModule extends SQLiteOpenHelper {
      *
      * @param tableName
      */
-    public void insert(String tableName, float accl_xValue, float accl_yValue, float accl_zValue, float gyro_xValue, float gyro_yValue, float gyro_zValue, float mag_xValue, float mag_yValue, float mag_zValue,long actionClass) {
+    public void insert(String tableName, float accl_xValue, float accl_yValue, float accl_zValue, float gyro_xValue, float gyro_yValue, float gyro_zValue, float mag_xValue, float mag_yValue, float mag_zValue, long actionClass) {
         String uthTableName = tableName;
         try {
-            String i = "INSERT INTO " + uthTableName + " VALUES("+accl_xValue + ", " + accl_yValue + ", " + accl_zValue + ", " + gyro_xValue + ", " + gyro_yValue + ", " + gyro_zValue + ", " + mag_xValue + ", " + mag_yValue + ", " + mag_zValue+", "+actionClass+")";
+            String i = "INSERT INTO " + uthTableName + " VALUES(" + accl_xValue + ", " + accl_yValue + ", " + accl_zValue + ", " + gyro_xValue + ", " + gyro_yValue + ", " + gyro_zValue + ", " + mag_xValue + ", " + mag_yValue + ", " + mag_zValue + ", " + actionClass + ")";
             getWritableDatabase().execSQL(i);
-            Log.v(MainActivity.TAG, i+"\n Database insertion complete");
+            Log.v(MainActivity.TAG, i + "\n Database insertion complete");
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(MainActivity.TAG, "Database insertion failed!");
@@ -236,44 +234,55 @@ public class SensorDBModule extends SQLiteOpenHelper {
 
     public void exportDB(String tableName) {
 
-        File exportDir = new File(context.getApplicationInfo().dataDir+"//databases//CSV//");
-        if (!exportDir.exists())
-        {
+        File exportDir = new File(context.getApplicationInfo().dataDir + "//databases//CSV//");
+        if (!exportDir.exists()) {
             exportDir.mkdirs();
         }
 
-        File file = new File(exportDir, tableName+".csv");
-        try
-        {
+        File file = new File(exportDir, tableName + ".csv");
+        try {
             file.createNewFile();
             CSVWriter csvWrite = new CSVWriter(new FileWriter(file));
-            Cursor curCSV = getReadableDatabase().rawQuery("SELECT * FROM "+tableName,null);
+            Cursor curCSV = getReadableDatabase().rawQuery("SELECT * FROM " + tableName, null);
             csvWrite.writeNext(curCSV.getColumnNames());
-            while(curCSV.moveToNext())
-            {
+            while (curCSV.moveToNext()) {
 
-                if(!tableName.equals("Train") && !tableName.equals("Test") && !tableName.equals("Train_Mean_Features") && !tableName.equals("Test_Mean_Features")) {
-                    String arrStr[] = {curCSV.getString(0),String.format ("%d", curCSV.getLong(1)), curCSV.getString(2),curCSV.getString(3),curCSV.getString(4)};
+                if (!tableName.equals("Train") && !tableName.equals("Test") && !tableName.equals("Train_Mean_Features") && !tableName.equals("Test_Mean_Features")) {
+                    String[] arrStr = {curCSV.getString(0), String.format("%d", curCSV.getLong(1)), curCSV.getString(2), curCSV.getString(3), curCSV.getString(4)};
                     csvWrite.writeNext(arrStr);
                 } else {
-                    String arrStr[] = {curCSV.getString(0),curCSV.getString(1), curCSV.getString(2),curCSV.getString(3),curCSV.getString(4),curCSV.getString(5),curCSV.getString(6),curCSV.getString(7),curCSV.getString(8),curCSV.getString(9)};
+                    String label = "";
+                    if ("0".equals(curCSV.getString(9))) {
+                        label = "noaction";
+                        continue;
+                    } else if ("1".equals(curCSV.getString(9))) {
+                        label = "cop";
+                    } else if ("2".equals(curCSV.getString(9))) {
+                        label = "hungry";
+                    } else if ("3".equals(curCSV.getString(9))) {
+                        label = "headache";
+                    } else if ("4".equals(curCSV.getString(9))) {
+                        label = "about";
+                    } else {
+                        label = "noaction";
+                        continue;
+                    }
+                    String[] arrStr = {curCSV.getString(0), curCSV.getString(1), curCSV.getString(2), curCSV.getString(3), curCSV.getString(4), curCSV.getString(5), curCSV.getString(6), curCSV.getString(7), curCSV.getString(8), label};
                     csvWrite.writeNext(arrStr);
                 }
 
             }
             csvWrite.close();
             curCSV.close();
-        }
-        catch(Exception e)
-        {
-            Log.e(MainActivity.TAG, "Error while exporting to CSV. Message: "+e.getMessage(), e);
+        } catch (Exception e) {
+            Log.e(MainActivity.TAG, "Error while exporting to CSV. Message: " + e.getMessage(), e);
         }
     }
 
     public void calculateFeaturesForTrain(String tableName) {
-        String[] classes = {"0","1","2","3","4"};
+        String[] classes = {"0", "1", "2", "3", "4"};
         List<String> list = Arrays.asList(classes);
-        Cursor curCSV = getReadableDatabase().rawQuery("SELECT * FROM "+tableName,null);
+        Cursor curCSV = getReadableDatabase().rawQuery("SELECT * FROM " + tableName, null);
         String prev = "0";
         List<Float> accl_x_value = new ArrayList<>();
         List<Float> accl_y_value = new ArrayList<>();
@@ -284,10 +293,10 @@ public class SensorDBModule extends SQLiteOpenHelper {
         List<Float> mag_x_value = new ArrayList<>();
         List<Float> mag_y_value = new ArrayList<>();
         List<Float> mag_z_value = new ArrayList<>();
-        this.deleteTableData(tableName+"_Mean_Features");
-        while(curCSV.moveToNext()) {
+        this.deleteTableData(tableName + "_Mean_Features");
+        while (curCSV.moveToNext()) {
             String class_label = curCSV.getString(9);
-            if(list.contains(class_label)) {
+            if (list.contains(class_label)) {
                 if (!prev.equals(class_label)) {
                     Float mean_accl_x = findMean(accl_x_value);
                     Float mean_accl_y = findMean(accl_y_value);
@@ -299,7 +308,7 @@ public class SensorDBModule extends SQLiteOpenHelper {
                     Float mean_mag_y = findMean(mag_y_value);
                     Float mean_mag_z = findMean(mag_z_value);
 
-                    this.insert(tableName+"_Mean_Features",mean_accl_x,mean_accl_y,mean_accl_z,mean_gyro_x,mean_gyro_y,mean_gyro_z,mean_mag_x,mean_mag_y,mean_mag_z,Long.valueOf(prev));
+                    this.insert(tableName + "_Mean_Features", mean_accl_x, mean_accl_y, mean_accl_z, mean_gyro_x, mean_gyro_y, mean_gyro_z, mean_mag_x, mean_mag_y, mean_mag_z, Long.valueOf(prev));
 
                     accl_x_value.clear();
                     accl_y_value.clear();
@@ -337,9 +346,9 @@ public class SensorDBModule extends SQLiteOpenHelper {
     }
 
     public void calculateFeaturesForTest(String tableName) {
-        String[] classes = {"0","1","2","3","4"};
+        String[] classes = {"0", "1", "2", "3", "4"};
         List<String> list = Arrays.asList(classes);
-        Cursor curCSV = getReadableDatabase().rawQuery("SELECT * FROM "+tableName,null);
+        Cursor curCSV = getReadableDatabase().rawQuery("SELECT * FROM " + tableName, null);
         String prev = "0";
         List<Float> accl_x_value = new ArrayList<>();
         List<Float> accl_y_value = new ArrayList<>();
@@ -350,10 +359,10 @@ public class SensorDBModule extends SQLiteOpenHelper {
         List<Float> mag_x_value = new ArrayList<>();
         List<Float> mag_y_value = new ArrayList<>();
         List<Float> mag_z_value = new ArrayList<>();
-        this.deleteTableData(tableName+"_Mean_Features");
-        while(curCSV.moveToNext()) {
+        this.deleteTableData(tableName + "_Mean_Features");
+        while (curCSV.moveToNext()) {
             String class_label = curCSV.getString(9);
-            if(list.contains(class_label)) {
+            if (list.contains(class_label)) {
                 if (!prev.equals(class_label)) {
                     Float mean_accl_x = findMean(accl_x_value);
                     Float mean_accl_y = findMean(accl_y_value);
@@ -365,7 +374,7 @@ public class SensorDBModule extends SQLiteOpenHelper {
                     Float mean_mag_y = findMean(mag_y_value);
                     Float mean_mag_z = findMean(mag_z_value);
 
-                    this.insert(tableName+"_Mean_Features",mean_accl_x,mean_accl_y,mean_accl_z,mean_gyro_x,mean_gyro_y,mean_gyro_z,mean_mag_x,mean_mag_y,mean_mag_z,Long.valueOf(prev));
+                    this.insert(tableName + "_Mean_Features", mean_accl_x, mean_accl_y, mean_accl_z, mean_gyro_x, mean_gyro_y, mean_gyro_z, mean_mag_x, mean_mag_y, mean_mag_z, Long.valueOf(prev));
 
                     accl_x_value.clear();
                     accl_y_value.clear();
@@ -403,15 +412,15 @@ public class SensorDBModule extends SQLiteOpenHelper {
     }
 
     private Float findMean(List<Float> list) {
-        float sum =0;
-        for (Float f:list) {
-            sum+=f;
+        float sum = 0;
+        for (Float f : list) {
+            sum += f;
         }
-        return (sum/list.size());
+        return (sum / list.size());
     }
 
     public void exportDBs(String[] tableNames) {
-        File exportDir = new File(context.getApplicationInfo().dataDir+"//databases//CSV//");
+        File exportDir = new File(context.getApplicationInfo().dataDir + "//databases//CSV//");
         if (exportDir.exists()) {
             String[] children = exportDir.list();
             for (int i = 0; i < children.length; i++) {
@@ -419,7 +428,7 @@ public class SensorDBModule extends SQLiteOpenHelper {
             }
             exportDir.mkdirs();
         }
-        for (String table:tableNames) {
+        for (String table : tableNames) {
             exportDB(table);
         }
     }

@@ -119,7 +119,6 @@
             android:layout_margin="10dp"
             android:gravity="center"
             android:text="@string/training_status"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textSize="15sp" />
     </LinearLayout>
 </RelativeLayout>

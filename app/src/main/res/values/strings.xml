@@ -23,5 +23,5 @@
     <string name="delete_table_btn_label">Delete Table</string>
     <string name="table_selection_label">Table</string>
     <string name="delete_help">⚠ Click the button 10 times to execute the delete behaviour</string>
-    <string name="do_it_my_way_label">Do it my way</string>
+    <string name="do_it_my_way_label">Merge and collect sensor readings</string>
 </resources>
